@@ -1,13 +1,57 @@
 <!DOCTYPE html>
   <html>
     <body>
+      <button id="jumpButton" onclick="jump(recty,speedrecty)">JUMP</button>
+      <style>
+        body {
+          background-color:black;
+        }
+        h1 {
+          color: white;
+        }
+        button {
+          position: absolute;
+          top: 600px;
+          right: 100px;
+          font-size: 50px;
+        }
+      </style>
     <h1>Shapes Sprint</h1>
-    <canvas id="gameCanvas" width="600" height="600"></canvas>
+    //makes canvas
+    <canvas id="gameCanvas" width="1000" height="600"></canvas>
     <script>
       var canvas = document.getElementById("gameCanvas");
       var ctx = canvas.getContext("2d");
-      ctx.fillStyle = "royalblue";
-      ctx.fillRect(0, 0, 50, 50);
+      rectx = 10
+      recty = 300
+      speedrecty = 70
+      //draws a red rectangle
+      function draw(){
+        ctx.fillStyle = "red";
+        ctx.fillRect(rectx, recty, 50, 50);
+        //draws a line
+      ctx.beginPath();
+      ctx.moveTo(0,355);
+      ctx.lineTo(1000,355);
+      ctx.lineWidth = 10;
+      ctx.strokeStyle = "white";
+      ctx.stroke();
+      }
+      draw()
+      //button functionality
+      jumpButton.addEventListener("click", (event) => {
+        function jump(){
+          ctx.clearRect(0,0, canvas.width, canvas.height)
+          recty -= speedrecty
+          draw()
+        }
+        jump()
+        setTimeout(function() {
+          ctx.clearRect(0,0, canvas.width, canvas.height)
+          recty += speedrecty
+          draw();
+        }, 2000);
+      })
     </script>
   </body>
   </html>
