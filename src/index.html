@@ -1,7 +1,7 @@
 <!DOCTYPE html>
   <html>
     <body>
-      <button id="jumpButton" onclick="jump(recty,speedrecty)">JUMP</button>
+      <button id="jumpButton">JUMP</button>
       <style>
         body {
           background-color:black;
@@ -17,18 +17,20 @@
         }
       </style>
     <h1>Shapes Sprint</h1>
-    //makes canvas
     <canvas id="gameCanvas" width="1000" height="600"></canvas>
     <script>
       var canvas = document.getElementById("gameCanvas");
       var ctx = canvas.getContext("2d");
-      rectx = 10
-      recty = 300
-      speedrecty = 70
-      //draws a red rectangle
+      var isJumping = false;
+      var recty = 300;
+      var speedrecty = 70;
+      var enemyrectx = 900;
+      var speedenemyrect = 5;
+      var num = Math.floor(Math.random()*3001);
+      //draws a red square
       function draw(){
         ctx.fillStyle = "red";
-        ctx.fillRect(rectx, recty, 50, 50);
+        ctx.fillRect(10, recty, 50, 50);
         //draws a line
         ctx.beginPath();
         ctx.moveTo(0,355);
@@ -36,21 +38,32 @@
         ctx.lineWidth = 10;
         ctx.strokeStyle = "white";
         ctx.stroke();
+        //draws enemy rectangle
+        ctx.fillStyle = "blue";
+        ctx.fillRect(enemyrectx,320,40,30);
+        
       }
       draw()
+      //animating enemy rectangle
+      setInterval (funtion(){
+        ctx.clearRect(enemyrectx,320,canvas.width,canvas,height);
+        enemyrectx -= speedenemyrect;
+        draw();
+      }, 1000/60);
       //button functionality
       jumpButton.addEventListener("click", (event) => {
-        function jump(){
-          ctx.clearRect(0,0, canvas.width, canvas.height)
-          recty -= speedrecty
-          draw()
-        }
-        jump()
-        setTimeout(function() {
-          ctx.clearRect(0,0, canvas.width, canvas.height)
-          recty += speedrecty
+        if (!isJumping) {
+          ctx.clearRect(10,recty, 50, 50);
+          isJumping = true;
+          recty -= speedrecty;
           draw();
-        }, 2000);
+        }
+        setTimeout(function() {
+          ctx.clearRect(10,recty, 50, 50);
+          isJumping = false;
+          recty += speedrecty;
+          draw();
+        }, 1000);
       })
     </script>
   </body>
